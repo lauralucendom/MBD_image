@@ -9,10 +9,23 @@ import os
 import platform
 
 class GOOGLE_IMAGES:
+    """Clase para la descarga de imágenes de Google."""
     def __init__(self):
-        print("init") # never prints
+        """
+        Constructor de la clase
+        """
+        print("Exec")
 
     def get_new_images(self, search_keyword = [], save_dir = 'nuevas_imagenes', keywords = [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'], visible = False):
+        """
+        Función que descarga imágenes de las personas públicas que recibe como parámetro.
+
+        Args:
+            search_keyword (list, optional): Lista de personas públicas que se quiera tener imágenes. Defaults to [].
+            save_dir (str, optional): Carpeta de descarga. Defaults to 'nuevas_imagenes'.
+            keywords (list, optional): Palabras clave para las imágenes. Defaults to [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'].
+            visible (bool, optional): Si se quiere ver como actúa el chromedriver se puede poner a True. Defaults to False.
+        """
         if len(search_keyword) == 0:
             print("Se necesitan personas en el parámetro 'search_keyword'.")
         else:
@@ -40,6 +53,7 @@ class GOOGLE_IMAGES:
                 for keyword in keywords:
                     try:
                         pure_keyword = keyword
+                        print("Descarga de imágenes de la búsqueda: {}{} HD".format(s_keyword, pure_keyword))
                         if first == True:
                             input_text = driver.find_element_by_xpath('//*[@id="sbtc"]/div/div[2]/input')
                             first = False
