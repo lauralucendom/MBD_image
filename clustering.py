@@ -124,7 +124,7 @@ class CLUSTERING:
             y.extend(labels)
         return np.asarray(X), np.asarray(y)
 
-    def train(self, train_data_dir: str = 'archive/data/train/', validation_data_dir: str = 'archive/data/val/', base_model: str = 'facenet_keras.h5', dir_model: str = ''):
+    def train(self, train_data_dir: str = 'archive/data/train/', validation_data_dir: str = 'archive/data/val/', base_model: str = 'facenet_keras.h5', dir_model: str = 'archive/models/'):
         """[summary]
 
         Args:

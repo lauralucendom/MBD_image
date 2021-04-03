@@ -28,7 +28,7 @@ class CNN:
         self._model_name = ""
         self._model = None
 
-    def _vgg16CNNtl(self, input_shape, outclass, sigma='sigmoid', dropout: float = 0.5, vgg16weight: str = 'archive/keras_pretrained_models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'):
+    def _vgg16CNNtl(self, input_shape, outclass, sigma='sigmoid', dropout: float = 0.5, vgg16weight: str = 'archive/models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'):
         """[summary]
 
         Args:
@@ -36,7 +36,7 @@ class CNN:
             outclass ([type]): [description]
             sigma (str, optional): [description]. Defaults to 'sigmoid'.
             dropout (float, optional): [description]. Defaults to 0.5.
-            vgg16weight (str, optional): [description]. Defaults to 'archive/keras_pretrained_models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'.
+            vgg16weight (str, optional): [description]. Defaults to 'archive/models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'.
 
         Returns:
             [type]: [description]
