@@ -20,14 +20,25 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 class CLUSTERING:
+    """
+    Clase...
+    """
     def __init__(self):
         """
-        Constructor de la clase
+        Inicializador...
         """
         print("Instancia de la clase CLUSTERING creada")
         self._model_name = ''
 
     def _extract_face(self, filename):
+        """[summary]
+
+        Args:
+            filename ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         if self._model_name == 'facenet_keras.h5':
             required_size=(160, 160)
         else:
@@ -56,6 +67,15 @@ class CLUSTERING:
         return face_array
 
     def _get_embedding(self, model, face_pixels):
+        """[summary]
+
+        Args:
+            model ([type]): [description]
+            face_pixels ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         # scale pixel values
         face_pixels = face_pixels.astype('float32')
         # standardize pixel values across channels (global)
@@ -68,6 +88,14 @@ class CLUSTERING:
         return yhat[0]
 
     def _load_face(self, dir):
+        """[summary]
+
+        Args:
+            dir ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         faces = list()
         # enumerate files
         for filename in os.listdir(dir):
@@ -77,6 +105,14 @@ class CLUSTERING:
         return faces
 
     def _load_dataset(self, dir):
+        """[summary]
+
+        Args:
+            dir ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         # list for faces and labels
         X, y = list(), list()
         for subdir in os.listdir(dir):
@@ -89,6 +125,14 @@ class CLUSTERING:
         return np.asarray(X), np.asarray(y)
 
     def train(self, train_data_dir: str = 'archive/data/train/', validation_data_dir: str = 'archive/data/val/', base_model: str = 'facenet_keras.h5', dir_model: str = ''):
+        """[summary]
+
+        Args:
+            train_data_dir (str, optional): [description]. Defaults to 'archive/data/train/'.
+            validation_data_dir (str, optional): [description]. Defaults to 'archive/data/val/'.
+            base_model (str, optional): [description]. Defaults to 'facenet_keras.h5'.
+            dir_model (str, optional): [description]. Defaults to ''.
+        """
         self._model_name = base_model
         # load train dataset
         trainX, trainy = self._load_dataset(train_data_dir)
