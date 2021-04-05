@@ -39,10 +39,8 @@ class GOOGLE_IMAGES:
                     chromeOptions = webdriver.chrome.options.Options()
                     chromeOptions.add_argument("--start-maximized")
                     if visible == False: chromeOptions.add_argument("--headless")
-                    if platform.system() == "Windows":
-                        driver = webdriver.Chrome(executable_path="chromedriver.exe", chrome_options=chromeOptions)
-                    else:
-                        driver = webdriver.Chrome(chrome_options=chromeOptions)
+                    driver = webdriver.Chrome(executable_path="chromedriver.exe", chrome_options=chromeOptions)
+
                     driver.get('https://www.google.es/imghp?hl=en-GB&authuser=0&ogbl')
                     time.sleep(1)
                     driver.find_element_by_xpath('//*[@id="zV9nZe"]/div').click() # Aceptar las cookies
