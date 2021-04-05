@@ -17,7 +17,7 @@ class GOOGLE_IMAGES:
         """
         print("Instancia de la clase GOOGLE_IMAGES creada")
 
-    def get_new_images(self, search_keyword = [], save_dir = 'archive/nuevas_imagenes', keywords = [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'], n_img = 4, visible = False):
+    def get_new_images(self, search_keyword = [], save_dir = 'archive/nuevas_imagenes', keywords = [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'], n_img = 4, visible = False,path="/Users/lauralucendomaranes/Documents/GitHub/MBD_image/chromedriver"):
         """
         Función que descarga imágenes de las personas públicas que recibe como parámetro.
 
@@ -39,7 +39,8 @@ class GOOGLE_IMAGES:
                     chromeOptions = webdriver.chrome.options.Options()
                     chromeOptions.add_argument("--start-maximized")
                     if visible == False: chromeOptions.add_argument("--headless")
-                    driver = webdriver.Chrome(executable_path="chromedriver.exe", chrome_options=chromeOptions)
+                    path=path
+                    driver = webdriver.Chrome(executable_path=path, chrome_options=chromeOptions)
 
                     driver.get('https://www.google.es/imghp?hl=en-GB&authuser=0&ogbl')
                     time.sleep(1)
