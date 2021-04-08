@@ -176,3 +176,5 @@ class CLUSTERING:
 
         plt.figure(figsize=(16, 6))
         sns.scatterplot(x=df_plot[0] , y= df_plot[1], data = df_plot,  hue = "target")
+        plt.savefig(base_model +'_clustering.png')
+
