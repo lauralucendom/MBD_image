@@ -1,2 +1,4 @@
 # MBD_image
-Prueba2
+Este proyecto está orientado a la ejecución del notebook llamado 'image_analysis.ipynb'. El proyecto se ha centrado en la clasificación de famosos en función de una imagen, y también se realiza clustering de las imágenes. Todo esto se encuentra mejor explicado en el notebook.
+El resto de ficheros contienen las clases y las funciones que el notebook utiliza.
+Para hacer uso de él es necesario la descarga de la carpeta alojada en el siguiente [link](https://upcomillas-my.sharepoint.com/:f:/g/personal/202013707_alu_comillas_edu/EijcP95mhcZFlNB-ddGO87QBElcU1lxBopPq75zVwITDBQ?e=ydvmzO) donde se encuentran las imágenes y los pesos de los modelos entrenados para que no sea necesario la ejecución de los entrenamientos. Esta carpeta debe alojarse dentro del proyecto una vez ha sido descargada.

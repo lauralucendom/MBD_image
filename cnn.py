@@ -13,7 +13,6 @@ import numpy as np
 from keras.preprocessing import image
 import cv2
 import json
-from results import Results
 
 
 class CNN:
@@ -29,17 +28,18 @@ class CNN:
         self._model = None
 
     def _vgg16CNNtl(self, input_shape, outclass, sigma='sigmoid', dropout: float = 0.5, vgg16weight: str = 'archive/models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'):
-        """[summary]
+        """
+        Función que inicializa el modelo vgg16CNNtl
 
         Args:
-            input_shape ([type]): [description]
-            outclass ([type]): [description]
-            sigma (str, optional): [description]. Defaults to 'sigmoid'.
-            dropout (float, optional): [description]. Defaults to 0.5.
-            vgg16weight (str, optional): [description]. Defaults to 'archive/models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'.
+            input_shape ([type])
+            outclass ([type])
+            sigma (str, optional): Defaults to 'sigmoid'.
+            dropout (float, optional): Defaults to 0.5.
+            vgg16weight (str, optional): Defaults to 'archive/models/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5'.
 
         Returns:
-            [type]: [description]
+            [type]: Modelo inicializado
         """
         base_model = None
         base_model = keras.applications.VGG16(weights=None, include_top=False, input_shape=input_shape)
@@ -58,23 +58,22 @@ class CNN:
         return model
 
     def train(self, train_data_dir: str = 'archive/data/train', validation_data_dir: str ='archive/data/val', training_batch_size: int = 30, validation_batch_size: int = 30, model: str = 'vgg16CNNtl', dropout: float = 0.5, epochs: int = 50, learning_rate: float = 1e-5, decay: float = 1e-7, test_data_aug: bool = False, save_dir: str = 'archive/data_aug_images'):
-        """[summary]
+        """
+        Entrenamiento del modelo que se indique o prueba del data augmentation.
 
         Args:
-            train_data_dir (str, optional): [description]. Defaults to 'archive/data/train'.
-            validation_data_dir (str, optional): [description]. Defaults to 'archive/data/val'.
-            training_batch_size (int, optional): [description]. Defaults to 30.
-            validation_batch_size (int, optional): [description]. Defaults to 30.
-            model (str, optional): [description]. Defaults to 'vgg16CNNtl'.
-            dropout (float, optional): [description]. Defaults to 0.5.
-            epochs (int, optional): [description]. Defaults to 50.
-            learning_rate (float, optional): [description]. Defaults to 1e-5.
-            decay (float, optional): [description]. Defaults to 1e-7.
-            test_data_aug (bool, optional): [description]. Defaults to False.
-            save_dir (str, optional): [description]. Defaults to 'archive/data_aug_images'.
+            train_data_dir (str, optional): Ruta de entrenamiento. Defaults to 'archive/data/train'.
+            validation_data_dir (str, optional): Ruta de validacion. Defaults to 'archive/data/val'.
+            training_batch_size (int, optional): Defaults to 30.
+            validation_batch_size (int, optional): Defaults to 30.
+            model (str, optional): Nombre del modelo. Defaults to 'vgg16CNNtl'.
+            dropout (float, optional): Defaults to 0.5.
+            epochs (int, optional): Defaults to 50.
+            learning_rate (float, optional): Defaults to 1e-5.
+            decay (float, optional): Defaults to 1e-7.
+            test_data_aug (bool, optional): Defaults to False.
+            save_dir (str, optional): Defaults to 'archive/data_aug_images'.
 
-        Returns:
-            [type]: [description]
         """
         # The train_datagen corresponds to an augmentation tool which will enable us to generate
         # images for our training dataset according to the configuration set.
@@ -192,7 +191,9 @@ class CNN:
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
         plt.title('Accuracy vs Epoch',weight='bold')
-        plt.savefig(model +'_dropout'+ str(dropout).replace(".","")+'_history.png')
+        name_history_str = 'archive/models/'+model +'_dropout'+ str(dropout).replace(".","")+'_LR'+str(learning_rate).replace(".", "").replace("0", "")+'_decay'+str(decay).replace(".", "").replace("0", "")+'_history.png'
+        plt.savefig(name_history_str)
+        print('Se ha guardado la imagen del history con el nombre: {}'.format(name_history_str))
 
     def save(self, filename: str):
         """Saves the model to an .h5 file and the model name to a .json file.
@@ -205,12 +206,13 @@ class CNN:
         self._model.save(filename + '.h5')
     
     def test(self, model, train_data_dir: str = 'archive/data/train', validation_data_dir: str = 'archive/data/val'):
-        """[summary]
+        """ 
+        Función que prueba el modelo que se le pasa como parámetro.
 
         Args:
-            model ([type]): [description]
-            train_data_dir (str, optional): [description]. Defaults to 'archive/data/train'.
-            validation_data_dir (str, optional): [description]. Defaults to 'archive/data/val'.
+            model ([type]): Modelo.
+            train_data_dir (str, optional): Ruta de entrenamiento. Defaults to 'archive/data/train'.
+            validation_data_dir (str, optional): Ruta de validación. Defaults to 'archive/data/val'.
         """
         labels = os.listdir(train_data_dir)
         test_images=[]
@@ -235,39 +237,3 @@ class CNN:
             ax.axis('off')
             plt.title("{}, {:.2f}%".format(labels[result_indices], result[result_indices]*100),size=16,weight='bold')
             ax.imshow(img)
-
-
-    def predict(self, test_dir: str, dataset_name: str = "", save: bool = True):
-        """Evaluates a new set of images using the trained CNN.
-
-        Args:
-            test_dir: Relative path to the validation directory (e.g., 'dataset/test').
-            dataset_name: Dataset descriptive name.
-            save: Save results to an Excel file.
-
-        """
-        # Configure loading and pre-processing functions
-        print('Reading test data...')
-        test_datagen = tf.keras.preprocessing.image.ImageDataGenerator(preprocessing_function=self._preprocessing_function)
-
-        test_generator = test_datagen.flow_from_directory(
-            test_dir,
-            target_size=self._target_size,
-            batch_size=1,  # A batch size of 1 ensures that all test images are processed
-            class_mode='categorical',
-            shuffle=False
-        )
-
-        # Predict categories
-        predictions = self._model.predict(test_generator)
-        predicted_labels = np.argmax(predictions, axis=1).ravel().tolist()
-
-        # Format results and compute classification statistics
-        results = Results(test_generator.class_indices, dataset_name=dataset_name)
-        accuracy, confusion_matrix, classification = results.compute(test_generator.filenames, test_generator.classes,
-                                                                     predicted_labels)
-        # Display and save results
-        results.print(accuracy, confusion_matrix)
-
-        if save:
-            results.save(confusion_matrix, classification, predictions)

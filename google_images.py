@@ -17,7 +17,7 @@ class GOOGLE_IMAGES:
         """
         print("Instancia de la clase GOOGLE_IMAGES creada")
 
-    def get_new_images(self, search_keyword = [], save_dir = 'archive/nuevas_imagenes', keywords = [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'], n_img = 4, visible = False,path="/Users/lauralucendomaranes/Documents/GitHub/MBD_image/chromedriver"):
+    def get_new_images(self, search_keyword = [], save_dir = 'archive/nuevas_imagenes', keywords = [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'], n_img = 4, visible = False,path="chromedriver.exe"):
         """
         Función que descarga imágenes de las personas públicas que recibe como parámetro.
 
@@ -26,6 +26,7 @@ class GOOGLE_IMAGES:
             save_dir (str, optional): Carpeta de descarga. Defaults to 'archive/nuevas_imagenes'.
             keywords (list, optional): Palabras clave para las imágenes. Defaults to [' face', ' side face', ' looking up', ' looking down', ' wearning glasses', ' happy face', ' close up'].
             visible (bool, optional): Si se quiere ver como actúa el chromedriver se puede poner a True. Defaults to False.
+            path (str, optional): Path hasta el chromedriver para poder ejecutar el driver. Defaults to "chromedriver.exe".
         """
         if len(search_keyword) == 0:
             print("Se necesitan personas en el parámetro 'search_keyword'.")
@@ -39,8 +40,13 @@ class GOOGLE_IMAGES:
                     chromeOptions = webdriver.chrome.options.Options()
                     chromeOptions.add_argument("--start-maximized")
                     if visible == False: chromeOptions.add_argument("--headless")
-                    path=path
-                    driver = webdriver.Chrome(executable_path=path, chrome_options=chromeOptions)
+                    if path != "chromedriver.exe":
+                        if platform.system() == "Windows":
+                            driver = webdriver.Chrome(executable_path="chromedriver.exe", chrome_options=chromeOptions)
+                        else:
+                            driver = webdriver.Chrome(executable_path="chromedriver", chrome_options=chromeOptions)
+                    else:
+                        driver = webdriver.Chrome(executable_path=path, chrome_options=chromeOptions)
 
                     driver.get('https://www.google.es/imghp?hl=en-GB&authuser=0&ogbl')
                     time.sleep(1)
